@@ -222,6 +222,10 @@ footer {
     padding: 1em 1.5em;
     margin: 1.5em auto;
     max-width: 860px;
+    position: static;
+    top: auto;
+    z-index: auto;
+    box-shadow: none;
 }
 .page-toc h2 {
     font-size: 1rem;
