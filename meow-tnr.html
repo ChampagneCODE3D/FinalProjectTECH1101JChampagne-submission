@@ -7,6 +7,189 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<!-- ...existing code from hobby.html... -->
+
+    <!-- ===== Navigation ===== -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">JC</a>
+
+            <button id="nav-toggle" class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul id="nav-links" class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="resume.html">Resume</a></li>
+                <li><a href="meow-tnr.html">MEOW &amp; TNR</a></li>
+                <li><a href="cheatsheet.html">Cheat Sheet</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ===== Main Content ===== -->
+    <main>
+        <div class="page-hero">
+            <h1>MEOW Foundation &amp; Trap-Neuter-Return (TNR)</h1>
+            <p>Supporting Calgary's cats through rescue, TNR, and community care</p>
+        </div>
+
+        <!-- ---- About MEOW Foundation ---- -->
+        <section id="about-meow">
+            <h2>About MEOW Foundation</h2>
+            <p>
+                The <strong>MEOW Foundation</strong> is a Calgary-based, no-kill cat rescue organisation dedicated
+                to rescuing homeless cats and kittens and finding them loving homes. They also support community
+                members who care for feral and stray cat colonies through their
+                <strong>Trap-Neuter-Return (TNR)</strong> program.
+            </p>
+            <p>
+                <iframe
+                    src="https://www.google.com/maps?q=35+Skyline+Crescent+NE,+Calgary,+AB+T2K+5X2,+Canada&output=embed"
+                    width="100%"
+                    height="300"
+                    style="border:0;border-radius:0.5em;margin:1em 0;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title="MEOW Foundation Location"
+                ></iframe>
+            </p>
+        </section>
+
+        <!-- ---- What is TNR? ---- -->
+        <section id="what-is-tnr">
+            <h2>What is Trap-Neuter-Return (TNR)?</h2>
+            <p>
+                TNR is the most humane and effective strategy for managing feral cat populations.
+                The process works in three steps:
+            </p>
+            <ol class="tnr-steps">
+                <li><strong>Trap</strong> &mdash; Humanely trap feral cats using live traps</li>
+                <li><strong>Neuter / Spay</strong> &mdash; Cats are taken to a vet or clinic for sterilisation and health checks</li>
+                <li><strong>Return</strong> &mdash; Cats are returned to their outdoor colony once recovered</li>
+            </ol>
+
+            <!-- Benefits comparison table -->
+            <table class="tnr-table">
+                <caption>Why TNR works</caption>
+                <thead>
+                    <tr>
+                        <th>Challenge</th>
+                        <th>Without TNR</th>
+                        <th>With TNR</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Population growth</td>
+                        <td>Continues to increase</td>
+                        <td>Stabilises and declines over time</td>
+                    </tr>
+                    <tr>
+                        <td>Community nuisance behaviours</td>
+                        <td>Yowling, fighting, spraying</td>
+                        <td>Significantly reduced</td>
+                    </tr>
+                    <tr>
+                        <td>Disease control</td>
+                        <td>Higher risk of disease spread</td>
+                        <td>Healthier, vaccinated colonies</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- ---- Our Involvement ---- -->
+        <section id="our-involvement">
+            <h2>Our Involvement</h2>
+            <p>
+                My wife and I are volunteer colony caretakers. We regularly feed the feral cats in our
+                area and coordinate with MEOW Foundation to trap cats for spay/neuter appointments.
+                After recovery, the cats are returned to the colony where we continue to monitor and
+                care for them.
+            </p>
+            <img
+                src="images/shelter.jpg"
+                alt="Insulated outdoor shelter for feral cats, made from a plastic tote with a small entry hole and painted to look like a house."
+                class="content-img"
+            >
+        </section>
+
+        <!-- ---- Trapping Temperature Checker ---- -->
+        <section id="trap-checker">
+            <h2>Is It Safe to Trap Today?</h2>
+            <p>
+                Temperature extremes can make trapping unsafe for feral cats. Use this tool to check
+                whether current conditions are within the recommended trapping range.
+            </p>
+
+            <div class="temp-checker-card">
+                <div class="temp-input-row">
+                    <label for="temp-input">Temperature:</label>
+                    <input
+                        type="number"
+                        id="temp-input"
+                        placeholder="e.g. 12"
+                        aria-label="Enter temperature"
+                    >
+                    <select id="temp-unit" aria-label="Temperature unit">
+                        <option value="C">&deg;C</option>
+                        <option value="F">&deg;F</option>
+                    </select>
+                    <label for="trap-date" style="margin-left:1em;">Date:</label>
+                    <input
+                        type="date"
+                        id="trap-date"
+                        aria-label="Select date to check"
+                        style="min-width:140px;"
+                    >
+                    <button id="check-temp-btn" class="btn-primary">Check</button>
+                </div>
+
+                <!-- Result is injected here by JavaScript -->
+                <div id="temp-result" class="temp-result" aria-live="polite" hidden></div>
+                <!-- Show the current thresholds so users understand the logic -->
+                <p class="temp-note" id="temp-threshold-note"></p>
+                <div class="trap-safety-tips" style="margin-top:1.5em;">
+                    <h3>Trapping Safety Tips (Calgary)</h3>
+                    <ul>
+                        <li>Only set traps between April 1 and October 15, and when temperatures are 0°C to 25°C.</li>
+                        <li>Set traps in a sheltered or shaded area.</li>
+                        <li>Check traps more than once a day.</li>
+                        <li>Provide food, water, and care for any trapped cat.</li>
+                        <li>Take sick or injured cats to a vet immediately.</li>
+                        <li>Have your trap inspected annually by a Peace Officer at the Animal Services Centre.</li>
+                    </ul>
+                    <p style="font-size:0.95em;">Source: <a href="https://www.calgary.ca/pets/cat-concerns.html" target="_blank" rel="noopener">City of Calgary - Cat Concerns</a></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ---- References ---- -->
+        <section id="references">
+            <h2>References</h2>
+            <ul>
+                <li>
+                    MEOW Foundation. (n.d.). <em>About MEOW Foundation</em>.
+                    <a href="https://www.meowfoundation.com" target="_blank" rel="noopener">meowfoundation.com</a>.
+                    Accessed April 2026.
+                </li>
+                <li>
+                    City of Calgary. (n.d.). <em>Cat Concerns &amp; TNR Guidelines</em>.
+                    <a href="https://www.calgary.ca/pets/cat-concerns.html" target="_blank" rel="noopener">calgary.ca/pets/cat-concerns.html</a>.
+                    Accessed April 2026.
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <!-- ===== Footer ===== -->
+    <footer>
+        <p>&copy; 2026 Jordan Champagne — TECH1101 Final Project</p>
+    </footer>
+
+    <script src="js/main.js"></script>
 </body>
 </html>
