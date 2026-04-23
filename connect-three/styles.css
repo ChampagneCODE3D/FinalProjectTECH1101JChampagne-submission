@@ -55,24 +55,29 @@ header {
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: clamp(1.4rem, 7vw, 2.5rem);
   color: #333;
   margin-bottom: 10px;
 }
 
 /* Status message showing whose turn it is or the winner */
 #status {
-  font-size: 1.3rem;
+  font-size: clamp(0.95rem, 4.5vw, 1.3rem);
   font-weight: bold;
   color: #555;
 }
 
 /* ===== Game Board ===== */
 /* 3-column grid layout; 6 rows are formed by the 18 cells */
+/* Cell size scales fluidly: fits 3 columns within 96vw, capped at 100px */
+:root {
+  --cell: clamp(60px, 26vw, 100px);
+}
+
 #board {
   display: grid;
-  grid-template-columns: repeat(3, 100px);
-  grid-template-rows: repeat(6, 100px);
+  grid-template-columns: repeat(3, var(--cell));
+  grid-template-rows: repeat(6, var(--cell));
   gap: 4px;
   background-color: #2c3e50;
   padding: 10px;
@@ -82,14 +87,14 @@ h1 {
 /* ===== Individual Cell ===== */
 /* Each cell is a square slot on the board */
 .cell {
-  width: 100px;
-  height: 100px;
+  width: var(--cell);
+  height: var(--cell);
   background-color: #ecf0f1;
   border: 2px solid #34495e;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
+  font-size: clamp(1.5rem, 7vw, 3rem);
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.2s;
@@ -143,8 +148,8 @@ h1 {
 /* Resets the game without page refresh */
 #restartBtn {
   margin-top: 25px;
-  padding: 12px 30px;
-  font-size: 1.1rem;
+  padding: clamp(8px, 2vw, 12px) clamp(18px, 5vw, 30px);
+  font-size: clamp(0.95rem, 3vw, 1.1rem);
   font-weight: bold;
   color: #fff;
   background-color: #2c3e50;
@@ -157,39 +162,4 @@ h1 {
 /* Hover darkens the button */
 #restartBtn:hover {
   background-color: #1a252f;
-}
-
-/* ===== Mobile Responsive Layout ===== */
-@media (max-width: 480px) {
-  /* Scale cell size so the full board fits on small phones */
-  :root {
-    --cell: min(26vw, 100px);
-  }
-
-  #board {
-    grid-template-columns: repeat(3, var(--cell));
-    grid-template-rows: repeat(6, var(--cell));
-    padding: 6px;
-    gap: 3px;
-  }
-
-  .cell {
-    width: var(--cell);
-    height: var(--cell);
-    /* Larger X/O so they're easy to read */
-    font-size: clamp(1.5rem, 8vw, 3rem);
-  }
-
-  h1 {
-    font-size: clamp(1.4rem, 7vw, 2.5rem);
-  }
-
-  #status {
-    font-size: clamp(0.95rem, 4.5vw, 1.3rem);
-  }
-
-  #restartBtn {
-    padding: 10px 24px;
-    font-size: 1rem;
-  }
 }
