@@ -477,15 +477,50 @@
                 Select a day to learn where its name comes from.
             </p>
 
-            <!-- Day picker -->
-            <div id="days-picker" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:1rem;margin-bottom:1.5rem;">
-                <button class="portfolio-btn" style="padding:0.75rem 0.5rem;font-size:1rem;" onclick="showDay(0)">1 — Sunday</button>
-                <button class="portfolio-btn" style="padding:0.75rem 0.5rem;font-size:1rem;" onclick="showDay(1)">2 — Monday</button>
-                <button class="portfolio-btn" style="padding:0.75rem 0.5rem;font-size:1rem;" onclick="showDay(2)">3 — Tuesday</button>
-                <button class="portfolio-btn" style="padding:0.75rem 0.5rem;font-size:1rem;" onclick="showDay(3)">4 — Wednesday</button>
-                <button class="portfolio-btn" style="padding:0.75rem 0.5rem;font-size:1rem;" onclick="showDay(4)">5 — Thursday</button>
-                <button class="portfolio-btn" style="padding:0.75rem 0.5rem;font-size:1rem;" onclick="showDay(5)">6 — Friday</button>
-                <button class="portfolio-btn" style="padding:0.75rem 0.5rem;font-size:1rem;" onclick="showDay(6)">7 — Saturday</button>
+            <!-- Day picker — calendar strip -->
+            <div id="days-picker" style="display:grid;grid-template-columns:repeat(7,1fr);border:2px solid #e67e22;border-radius:8px;overflow:hidden;margin-bottom:1.5rem;">
+                <button onclick="selectDay(this,0)" data-day="0"
+                        style="background:#1a252f;color:#cccccc;border:none;border-right:1px solid #e67e22;
+                               padding:0.6rem 0.2rem;cursor:pointer;text-align:center;transition:background 0.15s;">
+                    <div style="font-size:0.65rem;color:#e67e22;text-transform:uppercase;letter-spacing:0.05em;">Sun</div>
+                    <div style="font-size:1.1rem;font-weight:bold;margin-top:0.2rem;">1</div>
+                </button>
+                <button onclick="selectDay(this,1)" data-day="1"
+                        style="background:#1a252f;color:#cccccc;border:none;border-right:1px solid #e67e22;
+                               padding:0.6rem 0.2rem;cursor:pointer;text-align:center;transition:background 0.15s;">
+                    <div style="font-size:0.65rem;color:#e67e22;text-transform:uppercase;letter-spacing:0.05em;">Mon</div>
+                    <div style="font-size:1.1rem;font-weight:bold;margin-top:0.2rem;">2</div>
+                </button>
+                <button onclick="selectDay(this,2)" data-day="2"
+                        style="background:#1a252f;color:#cccccc;border:none;border-right:1px solid #e67e22;
+                               padding:0.6rem 0.2rem;cursor:pointer;text-align:center;transition:background 0.15s;">
+                    <div style="font-size:0.65rem;color:#e67e22;text-transform:uppercase;letter-spacing:0.05em;">Tue</div>
+                    <div style="font-size:1.1rem;font-weight:bold;margin-top:0.2rem;">3</div>
+                </button>
+                <button onclick="selectDay(this,3)" data-day="3"
+                        style="background:#1a252f;color:#cccccc;border:none;border-right:1px solid #e67e22;
+                               padding:0.6rem 0.2rem;cursor:pointer;text-align:center;transition:background 0.15s;">
+                    <div style="font-size:0.65rem;color:#e67e22;text-transform:uppercase;letter-spacing:0.05em;">Wed</div>
+                    <div style="font-size:1.1rem;font-weight:bold;margin-top:0.2rem;">4</div>
+                </button>
+                <button onclick="selectDay(this,4)" data-day="4"
+                        style="background:#1a252f;color:#cccccc;border:none;border-right:1px solid #e67e22;
+                               padding:0.6rem 0.2rem;cursor:pointer;text-align:center;transition:background 0.15s;">
+                    <div style="font-size:0.65rem;color:#e67e22;text-transform:uppercase;letter-spacing:0.05em;">Thu</div>
+                    <div style="font-size:1.1rem;font-weight:bold;margin-top:0.2rem;">5</div>
+                </button>
+                <button onclick="selectDay(this,5)" data-day="5"
+                        style="background:#1a252f;color:#cccccc;border:none;border-right:1px solid #e67e22;
+                               padding:0.6rem 0.2rem;cursor:pointer;text-align:center;transition:background 0.15s;">
+                    <div style="font-size:0.65rem;color:#e67e22;text-transform:uppercase;letter-spacing:0.05em;">Fri</div>
+                    <div style="font-size:1.1rem;font-weight:bold;margin-top:0.2rem;">6</div>
+                </button>
+                <button onclick="selectDay(this,6)" data-day="6"
+                        style="background:#1a252f;color:#cccccc;border:none;
+                               padding:0.6rem 0.2rem;cursor:pointer;text-align:center;transition:background 0.15s;">
+                    <div style="font-size:0.65rem;color:#e67e22;text-transform:uppercase;letter-spacing:0.05em;">Sat</div>
+                    <div style="font-size:1.1rem;font-weight:bold;margin-top:0.2rem;">7</div>
+                </button>
             </div>
 
             <!-- Result panel -->
@@ -554,6 +589,17 @@
     document.getElementById('days-overlay').addEventListener('click', function(e) {
         if (e.target === this) closeDaysTool();
     });
+
+    function selectDay(btn, index) {
+        // Highlight selected cell
+        document.querySelectorAll('#days-picker button').forEach(b => {
+            b.style.background = '#1a252f';
+            b.style.color = '#cccccc';
+        });
+        btn.style.background = '#e67e22';
+        btn.style.color = '#ffffff';
+        showDay(index);
+    }
 
     function showDay(index) {
         const day = daysData[index];
