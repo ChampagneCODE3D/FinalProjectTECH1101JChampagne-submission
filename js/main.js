@@ -1,6 +1,14 @@
 /* ============================================================
-   main.js — Shared JavaScript for Jordan's Personal Website
-   TECH1101 Final Project
+   File:        main.js
+   Author:      Jordan Champagne (Student ID: JC484889)
+   Course:      TECH1101 — Web and Internet Fundamentals
+   Institution: Bow Valley College
+   Date:        April 2026
+   Description: Shared JavaScript for Jordan Champagne's personal portfolio
+                website. Handles the responsive hamburger navigation toggle,
+                active nav link highlighting, floating back-to-top button,
+                trapping temperature safety calculator, and project popup helper.
+   AI Assistance: GitHub Copilot used for code suggestions and debugging.
    ============================================================ */
 
 /* ---------- Responsive Navigation (hamburger menu) ---------- */

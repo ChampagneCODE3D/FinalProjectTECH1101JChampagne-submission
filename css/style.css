@@ -1,4 +1,16 @@
-/* Style nav bar links like portfolio buttons for consistency */
+/* ============================================================
+   File:        style.css
+   Author:      Jordan Champagne (Student ID: JC484889)
+   Course:      TECH1101 — Web and Internet Fundamentals
+   Institution: Bow Valley College
+   Date:        April 2026
+   Description: Shared stylesheet for all pages of Jordan Champagne's
+                personal portfolio website. Handles layout, typography,
+                colour theming, navigation, cards, buttons, responsive
+                design for all viewports, and page-specific overrides.
+   AI Assistance: GitHub Copilot used for code suggestions and debugging.
+   ============================================================ */
+
 /* Top nav bar links styled as buttons for full consistency */
 .nav-links a {
     background: var(--colour-accent, #e67e22);
