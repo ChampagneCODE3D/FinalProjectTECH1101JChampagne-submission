@@ -1,7 +1,16 @@
 // =====================================================
 // Cashier Calculator - JavaScript Logic
 // TECH1101 Assignment 3
-// Author: Jordan Champagne
+// Author: Jordan Champagne (Student ID: JC484889)
+// Course: TECH1101 — Web and Internet Fundamentals
+// Institution: Bow Valley College
+// Date: April 2026
+//
+// Instructor Feedback Applied (Post-Submission):
+// - Replaced all legacy "let" declarations with "let" or "const"
+//   as recommended. "let" is function-scoped and can cause subtle
+//   bugs due to hoisting. "let" is block-scoped (safer), and
+//   "const" is used where a variable is never reassigned (best practice).
 //
 // Input Validation:
 // Helper functions (escapeHTML, validateEmail)
@@ -22,27 +31,27 @@
 
 // ===== Data Arrays =====
 // Array to store product names
-var productNames = [];
+let productNames = [];
 // Array to store product prices (index matches productNames)
-var productPrices = [];
+let productPrices = [];
 
 // ===== Shopping Cart Arrays =====
 // Array to store cart item names
-var cartProductNames = [];
+let cartProductNames = [];
 // Array to store cart item prices per unit
-var cartProductPrices = [];
+let cartProductPrices = [];
 // Array to store cart item quantities
-var cartProductUnits = [];
+let cartProductUnits = [];
 
 // Track whether the transaction has been paid (receipt finalized)
-var transactionPaid = false;
+let transactionPaid = false;
 
 // Frozen receipt date and time (captured at payment)
-var receiptDate = "";
-var receiptTime = "";
+let receiptDate = "";
+let receiptTime = "";
 
 // Interval ID for the running clock on the receipt
-var clockInterval = null;
+let clockInterval = null;
 
 // ===== Helper Functions (adapted from GLA8 Poka-Yoke validation) =====
 
@@ -52,7 +61,7 @@ var clockInterval = null;
  * @returns {string} - Escaped string safe for innerHTML
  */
 function escapeHTML(str) {
-    var div = document.createElement("div");
+    const div = document.createElement("div");
     div.textContent = str;
     return div.innerHTML;
 }
@@ -63,7 +72,7 @@ function escapeHTML(str) {
  * @returns {boolean} - True if valid format
  */
 function validateEmail(email) {
-    var pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return pattern.test(email);
 }
 
@@ -75,8 +84,8 @@ function validateEmail(email) {
  */
 function showToast(message, type) {
     if (!type) type = "error";
-    var container = document.getElementById("toast-container");
-    var toast = document.createElement("div");
+    const container = document.getElementById("toast-container");
+    const toast = document.createElement("div");
     toast.className = "toast toast-" + type;
     toast.textContent = message;
     container.appendChild(toast);
@@ -104,8 +113,8 @@ function lockRegister() {
     document.getElementById("admin-product-select").disabled = true;
 
     // Disable all buttons except New Transaction and Email Receipt
-    var buttons = document.querySelectorAll("button");
-    for (var i = 0; i < buttons.length; i++) {
+    const buttons = document.querySelectorAll("button");
+    for (let i = 0; i < buttons.length; i++) {
         if (buttons[i].onclick &&
             buttons[i].onclick.toString().indexOf("newTransaction") === -1 &&
             buttons[i].onclick.toString().indexOf("emailReceipt") === -1) {
@@ -127,8 +136,8 @@ function unlockRegister() {
     document.getElementById("admin-product-select").disabled = false;
 
     // Re-enable all buttons
-    var buttons = document.querySelectorAll("button");
-    for (var i = 0; i < buttons.length; i++) {
+    const buttons = document.querySelectorAll("button");
+    for (let i = 0; i < buttons.length; i++) {
         buttons[i].disabled = false;
     }
 }
@@ -138,7 +147,7 @@ function unlockRegister() {
  * as a readable string (e.g. "April 17, 2026").
  */
 function getCurrentDateString() {
-    var now = new Date();
+    const now = new Date();
     return now.toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
@@ -151,7 +160,7 @@ function getCurrentDateString() {
  * with hours, minutes, and seconds (e.g. "02:35:14 PM").
  */
 function getCurrentTimeString() {
-    var now = new Date();
+    const now = new Date();
     return now.toLocaleTimeString("en-US", {
         hour: "2-digit",
         minute: "2-digit",
@@ -180,8 +189,8 @@ function startClock() {
  * on the receipt with the current values.
  */
 function updateClockDisplay() {
-    var dateEl = document.getElementById("receipt-date");
-    var timeEl = document.getElementById("receipt-time");
+    let dateEl = document.getElementById("receipt-date");
+    let timeEl = document.getElementById("receipt-time");
     if (dateEl) {
         dateEl.textContent = "Date: " + getCurrentDateString();
     }
@@ -212,7 +221,7 @@ function stopClock() {
  */
 function addProduct() {
     // Get the product name from the input field
-    var name = document.getElementById("product-name-input").value.trim();
+    const name = document.getElementById("product-name-input").value.trim();
 
     // Validate: make sure the name is not empty
     if (name === "") {
@@ -227,7 +236,7 @@ function addProduct() {
     }
 
     // Validate: no duplicate names (case-insensitive)
-    for (var i = 0; i < productNames.length; i++) {
+    for (let i = 0; i < productNames.length; i++) {
         if (productNames[i].toLowerCase() === name.toLowerCase()) {
             showToast("A product named \"" + name + "\" already exists.");
             return;
@@ -253,8 +262,8 @@ function addProduct() {
  */
 function setPrice() {
     // Get the selected product index
-    var select = document.getElementById("admin-product-select");
-    var index = select.selectedIndex;
+    const select = document.getElementById("admin-product-select");
+    const index = select.selectedIndex;
 
     // Validate: ensure a product exists
     if (index < 0 || productNames.length === 0) {
@@ -263,7 +272,7 @@ function setPrice() {
     }
 
     // Get and validate the price value
-    var priceValue = parseFloat(document.getElementById("price-input").value);
+    const priceValue = parseFloat(document.getElementById("price-input").value);
     if (isNaN(priceValue) || priceValue <= 0) {
         showToast("Please enter a price greater than $0.00.");
         return;
@@ -289,22 +298,22 @@ function setPrice() {
  * dropdown menus with the current products and prices.
  */
 function updateDropdowns() {
-    var adminSelect = document.getElementById("admin-product-select");
-    var checkoutSelect = document.getElementById("checkout-product-select");
+    const adminSelect = document.getElementById("admin-product-select");
+    const checkoutSelect = document.getElementById("checkout-product-select");
 
     // Clear existing options
     adminSelect.innerHTML = "";
     checkoutSelect.innerHTML = "";
 
     // Build new options for each product
-    for (var i = 0; i < productNames.length; i++) {
+    for (let i = 0; i < productNames.length; i++) {
         // Admin dropdown shows name only
-        var adminOption = document.createElement("option");
+        const adminOption = document.createElement("option");
         adminOption.text = productNames[i];
         adminSelect.appendChild(adminOption);
 
         // Checkout dropdown shows name + price
-        var checkoutOption = document.createElement("option");
+        const checkoutOption = document.createElement("option");
         checkoutOption.text = productNames[i] + " $" + productPrices[i].toFixed(2) + "/unit";
         checkoutSelect.appendChild(checkoutOption);
     }
@@ -323,10 +332,10 @@ function updateDropdowns() {
  * become before they click "Add Price".
  */
 function updateProductList() {
-    var listDiv = document.getElementById("product-list");
+    const listDiv = document.getElementById("product-list");
 
     // Always show the table frame with headers
-    var html = "<table>";
+    let html = "<table>";
     html += "<tr><th>Product</th><th>&#9998;</th><th>Price</th><th>&#9998;</th><th>&#128465;</th></tr>";
 
     // If no products exist, show an empty row placeholder
@@ -338,11 +347,11 @@ function updateProductList() {
     }
 
     // Check if the admin is typing a pending price
-    var adminSelect = document.getElementById("admin-product-select");
-    var pendingIndex = adminSelect.selectedIndex;
-    var pendingPrice = parseFloat(document.getElementById("price-input").value);
-    var hasPending = (pendingIndex >= 0 && !isNaN(pendingPrice) && pendingPrice >= 0);
-    for (var i = 0; i < productNames.length; i++) {
+    const adminSelect = document.getElementById("admin-product-select");
+    const pendingIndex = adminSelect.selectedIndex;
+    const pendingPrice = parseFloat(document.getElementById("price-input").value);
+    const hasPending = (pendingIndex >= 0 && !isNaN(pendingPrice) && pendingPrice >= 0);
+    for (let i = 0; i < productNames.length; i++) {
         // If this product has a pending price, show it in preview style
         if (hasPending && i === pendingIndex) {
             html += '<tr class="preview-price-row">';
@@ -448,7 +457,7 @@ function editPrice(index) {
     document.getElementById("admin-product-select").selectedIndex = index;
 
     // Pre-fill the price input with the current price
-    var priceInput = document.getElementById("price-input");
+    const priceInput = document.getElementById("price-input");
     priceInput.value = productPrices[index].toFixed(2);
     priceInput.focus();
     priceInput.select();
@@ -463,14 +472,14 @@ function editPrice(index) {
  * @param {number} index - The product index to rename
  */
 function renameProduct(index) {
-    var newName = prompt("Rename product:", productNames[index]);
+    const newName = prompt("Rename product:", productNames[index]);
 
     // If user cancelled or entered empty string, do nothing
     if (newName === null || newName.trim() === "") {
         return;
     }
 
-    var trimmed = newName.trim();
+    const trimmed = newName.trim();
 
     // Validate: max 50 characters
     if (trimmed.length > 50) {
@@ -479,18 +488,18 @@ function renameProduct(index) {
     }
 
     // Validate: no duplicate names (case-insensitive, skip self)
-    for (var i = 0; i < productNames.length; i++) {
+    for (let i = 0; i < productNames.length; i++) {
         if (i !== index && productNames[i].toLowerCase() === trimmed.toLowerCase()) {
             showToast("A product named \"" + trimmed + "\" already exists.");
             return;
         }
     }
 
-    var oldName = productNames[index];
+    const oldName = productNames[index];
     productNames[index] = trimmed;
 
     // Update cart items that had the old name
-    for (var j = 0; j < cartProductNames.length; j++) {
+    for (let j = 0; j < cartProductNames.length; j++) {
         if (cartProductNames[j] === oldName) {
             cartProductNames[j] = trimmed;
         }
@@ -514,7 +523,7 @@ function deleteProduct(index) {
     }
 
     // Remove matching items from the cart
-    for (var j = cartProductNames.length - 1; j >= 0; j--) {
+    for (let j = cartProductNames.length - 1; j >= 0; j--) {
         if (cartProductNames[j] === productNames[index]) {
             cartProductNames.splice(j, 1);
             cartProductPrices.splice(j, 1);
@@ -551,8 +560,8 @@ function clearCart() {
  * The red preview row becomes a confirmed black row in the receipt.
  */
 function addToCart() {
-    var select = document.getElementById("checkout-product-select");
-    var index = select.selectedIndex;
+    const select = document.getElementById("checkout-product-select");
+    const index = select.selectedIndex;
 
     // Validate: product must exist
     if (index < 0 || productNames.length === 0) {
@@ -561,7 +570,7 @@ function addToCart() {
     }
 
     // Validate: unit must be 1-9
-    var units = parseInt(document.getElementById("unit-input").value);
+    let units = parseInt(document.getElementById("unit-input").value);
     if (isNaN(units) || units < 1 || units > 9) {
         showToast("Please select a number of units (1-9) using the number pad.");
         return;
@@ -599,7 +608,7 @@ function renderLiveReceipt() {
     }
 
     // Always show date/time with live clock elements
-    var html = "";
+    let html = "";
     html += '<p><strong id="receipt-date">Date: ' + getCurrentDateString() + '</strong></p>';
     html += '<p><strong id="receipt-time">Time: ' + getCurrentTimeString() + '</strong></p>';
 
@@ -614,11 +623,11 @@ function renderLiveReceipt() {
     html += "</tr>";
 
     // Running subtotal for confirmed items
-    var subTotal = 0;
+    let subTotal = 0;
 
     // Render all confirmed cart items in black with a trash icon
-    for (var i = 0; i < cartProductNames.length; i++) {
-        var lineTotal = cartProductPrices[i] * cartProductUnits[i];
+    for (let i = 0; i < cartProductNames.length; i++) {
+        let lineTotal = cartProductPrices[i] * cartProductUnits[i];
         subTotal += lineTotal;
 
         html += "<tr>";
@@ -631,14 +640,14 @@ function renderLiveReceipt() {
     }
 
     // Check if there is a pending selection to preview in red
-    var select = document.getElementById("checkout-product-select");
-    var index = select.selectedIndex;
-    var units = parseInt(document.getElementById("unit-input").value);
+    const select = document.getElementById("checkout-product-select");
+    const index = select.selectedIndex;
+    let units = parseInt(document.getElementById("unit-input").value);
 
     // Only show the red preview if a product exists and a unit is selected
     if (index >= 0 && productNames.length > 0 && !isNaN(units) && units >= 1 && units <= 9) {
-        var previewPrice = productPrices[index];
-        var previewTotal = previewPrice * units;
+        const previewPrice = productPrices[index];
+        const previewTotal = previewPrice * units;
 
         // Red row — this item has NOT been added yet
         html += '<tr class="preview-row">';
@@ -702,15 +711,15 @@ function pay() {
 
     // Stop the running clock and capture the current time
     stopClock();
-    var dateString = getCurrentDateString();
-    var timeString = getCurrentTimeString();
+    const dateString = getCurrentDateString();
+    const timeString = getCurrentTimeString();
 
     // Store frozen receipt timestamp for email
     receiptDate = dateString;
     receiptTime = timeString;
 
     // Build finalized receipt HTML
-    var receiptHTML = "";
+    let receiptHTML = "";
     receiptHTML += "<p><strong>Date: " + dateString + "</strong></p>";
     receiptHTML += "<p><strong>Time: " + timeString + "</strong></p>";
 
@@ -724,9 +733,9 @@ function pay() {
     receiptHTML += "</tr>";
 
     // Loop through confirmed cart items
-    var subTotal = 0;
-    for (var i = 0; i < cartProductNames.length; i++) {
-        var lineTotal = cartProductPrices[i] * cartProductUnits[i];
+    let subTotal = 0;
+    for (let i = 0; i < cartProductNames.length; i++) {
+        let lineTotal = cartProductPrices[i] * cartProductUnits[i];
         subTotal += lineTotal;
 
         receiptHTML += "<tr>";
@@ -738,8 +747,8 @@ function pay() {
     }
 
     // Calculate 5% tax and grand total
-    var tax = subTotal * 0.05;
-    var grandTotal = subTotal + tax;
+    let tax = subTotal * 0.05;
+    let grandTotal = subTotal + tax;
 
     // Round to avoid floating-point display errors
     subTotal = Math.round(subTotal * 100) / 100;
@@ -774,7 +783,7 @@ function emailReceipt() {
     }
 
     // Build a plain-text version of the receipt
-    var body = "=== CASHIER RECEIPT ===\n\n";
+    let body = "=== CASHIER RECEIPT ===\n\n";
     body += "Date: " + receiptDate + "\n";
     body += "Time: " + receiptTime;
     body += "\n\n";
@@ -783,16 +792,16 @@ function emailReceipt() {
     body += "Product | $/Unit | Units | Price\n";
     body += "------------------------------------\n";
 
-    var subTotal = 0;
-    for (var i = 0; i < cartProductNames.length; i++) {
-        var lineTotal = cartProductPrices[i] * cartProductUnits[i];
+    let subTotal = 0;
+    for (let i = 0; i < cartProductNames.length; i++) {
+        let lineTotal = cartProductPrices[i] * cartProductUnits[i];
         subTotal += lineTotal;
         body += cartProductNames[i] + " | $" + cartProductPrices[i].toFixed(2);
         body += " | " + cartProductUnits[i] + " | $" + lineTotal.toFixed(2) + "\n";
     }
 
-    var tax = subTotal * 0.05;
-    var grandTotal = subTotal + tax;
+    let tax = subTotal * 0.05;
+    let grandTotal = subTotal + tax;
 
     // Round to avoid floating-point display errors
     subTotal = Math.round(subTotal * 100) / 100;
@@ -806,7 +815,7 @@ function emailReceipt() {
     body += "\n=== THANK YOU ===";
 
     // Get the email address from the input field
-    var email = document.getElementById("email-input").value.trim();
+    const email = document.getElementById("email-input").value.trim();
     if (email === "") {
         showToast("Please enter a customer email address.");
         return;
@@ -817,8 +826,8 @@ function emailReceipt() {
     }
 
     // Open mailto link with recipient, subject, and body
-    var subject = "Receipt - " + receiptDate;
-    var mailtoLink = "mailto:" + encodeURIComponent(email) + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+    const subject = "Receipt - " + receiptDate;
+    const mailtoLink = "mailto:" + encodeURIComponent(email) + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
     window.location.href = mailtoLink;
 }
 
@@ -840,7 +849,7 @@ document.getElementById("checkout-product-select").addEventListener("change", fu
  */
 document.getElementById("price-input").addEventListener("input", function () {
     // Cap the value at 10,000,000 in real time
-    var val = parseFloat(this.value);
+    let val = parseFloat(this.value);
     if (!isNaN(val) && val > 10000000) {
         this.value = 10000000;
     }
