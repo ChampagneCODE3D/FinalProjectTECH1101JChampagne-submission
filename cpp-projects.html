@@ -291,11 +291,43 @@
     #days-picker button.day-selected { background: #e67e22 !important; color: #ffffff !important; }
     #days-picker button.day-selected .day-abbrev { color: #ffffff; }
 
+    /* Bus Pass yes/no controls */
+    .bus-yn-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+        margin-top: 0.25rem;
+    }
+
+    .bus-yn-btn {
+        background: #1a252f;
+        color: #ffffff;
+        border: 1px solid #e67e22;
+        border-radius: 8px;
+        padding: 0.65rem 0.5rem;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s, transform 0.1s;
+    }
+
+    .bus-yn-btn:hover,
+    .bus-yn-btn:focus-visible {
+        background: #e67e22;
+        color: #ffffff;
+        outline: none;
+    }
+
+    .bus-yn-btn:active {
+        transform: translateY(1px);
+    }
+
     /* Tighten cells on narrow viewports */
     @media (max-width: 480px) {
         #days-picker button { padding: 0.5rem 0.1rem; }
         #days-picker button .day-abbrev { font-size: 0.55rem; }
         #days-picker button .day-num   { font-size: 0.9rem; }
+        .bus-yn-btn { padding: 0.6rem 0.35rem; font-size: 0.95rem; }
     }
     </style>
 
@@ -307,36 +339,36 @@
             <button onclick="closeBusTool()" aria-label="Close"
                     style="position:absolute;top:0.75rem;right:1rem;background:none;border:none;
                            color:#ffffff;font-size:1.5rem;cursor:pointer;line-height:1;">&times;</button>
-            <h2 id="bus-title" style="margin-top:0;margin-bottom:0.5rem;color:#e67e22;">Bus Pass Calculator</h2>
+            <h2 id="bus-title" style="margin-top:0;margin-bottom:0.5rem;color:#e67e22;">Bus Pass Price Checker</h2>
             <p style="font-size:0.9rem;color:#cccccc;margin-top:0;margin-bottom:1.5rem;">
-                Same pricing logic as the C++ program &mdash; runs in your browser.
+                Answer a few quick questions to estimate your monthly bus pass price.
             </p>
 
             <!-- Pricing criteria: mirrors C++ decision tree -->
             <details style="margin:0 0 1.5rem;border:1px solid #e67e22;border-radius:8px;background:#1a252f;overflow:hidden;">
                 <summary style="padding:0.6rem 0.8rem;cursor:pointer;color:#e67e22;font-size:0.88rem;font-weight:700;">
-                    View Pricing Criteria
+                    View Price Rules
                 </summary>
                 <div style="padding:0.25rem 0.8rem 0.8rem;overflow-x:auto;">
                     <table style="width:100%;border-collapse:collapse;color:#cccccc;font-size:0.84rem;line-height:1.4;">
                         <thead>
                             <tr style="color:#ffffff;border-bottom:1px solid #e67e22;">
-                                <th style="text-align:left;padding:0.45rem 0.25rem;">Category</th>
-                                <th style="text-align:left;padding:0.45rem 0.25rem;">Condition</th>
-                                <th style="text-align:right;padding:0.45rem 0.25rem;">Price</th>
+                                <th style="text-align:left;padding:0.45rem 0.25rem;">Rider Type</th>
+                                <th style="text-align:left;padding:0.45rem 0.25rem;">If...</th>
+                                <th style="text-align:right;padding:0.45rem 0.25rem;">Monthly Price</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr><td style="padding:0.35rem 0.25rem;">Child (0&ndash;5)</td><td style="padding:0.35rem 0.25rem;">Any</td><td style="padding:0.35rem 0.25rem;text-align:right;">$0</td></tr>
-                            <tr><td style="padding:0.35rem 0.25rem;">Youth (6&ndash;17)</td><td style="padding:0.35rem 0.25rem;">City employee = Yes</td><td style="padding:0.35rem 0.25rem;text-align:right;">$50</td></tr>
-                            <tr><td style="padding:0.35rem 0.25rem;">Youth (6&ndash;17)</td><td style="padding:0.35rem 0.25rem;">City employee = No</td><td style="padding:0.35rem 0.25rem;text-align:right;">$80</td></tr>
-                            <tr><td style="padding:0.35rem 0.25rem;">Adult (18&ndash;64)</td><td style="padding:0.35rem 0.25rem;">Income &lt; $15,000</td><td style="padding:0.35rem 0.25rem;text-align:right;">$30</td></tr>
-                            <tr><td style="padding:0.35rem 0.25rem;">Adult (18&ndash;64)</td><td style="padding:0.35rem 0.25rem;">Income >= $15,000 and City employee = Yes</td><td style="padding:0.35rem 0.25rem;text-align:right;">$50</td></tr>
-                            <tr><td style="padding:0.35rem 0.25rem;">Adult (18&ndash;64)</td><td style="padding:0.35rem 0.25rem;">Income >= $15,000 and City employee = No</td><td style="padding:0.35rem 0.25rem;text-align:right;">$100</td></tr>
-                            <tr><td style="padding:0.35rem 0.25rem;">Senior (65+)</td><td style="padding:0.35rem 0.25rem;">Income &lt; $15,000</td><td style="padding:0.35rem 0.25rem;text-align:right;">$30</td></tr>
-                            <tr><td style="padding:0.35rem 0.25rem;">Senior (65+)</td><td style="padding:0.35rem 0.25rem;">Income >= $15,000 and City employee = Yes</td><td style="padding:0.35rem 0.25rem;text-align:right;">$50</td></tr>
-                            <tr><td style="padding:0.35rem 0.25rem;">Senior (65+)</td><td style="padding:0.35rem 0.25rem;">Income >= $15,000, City employee = No, Income &lt; $30,000</td><td style="padding:0.35rem 0.25rem;text-align:right;">$70</td></tr>
-                            <tr><td style="padding:0.35rem 0.25rem;">Senior (65+)</td><td style="padding:0.35rem 0.25rem;">Income >= $30,000 and City employee = No</td><td style="padding:0.35rem 0.25rem;text-align:right;">$100</td></tr>
+                            <tr><td style="padding:0.35rem 0.25rem;">Child (0&ndash;5)</td><td style="padding:0.35rem 0.25rem;">Any child age 0 to 5</td><td style="padding:0.35rem 0.25rem;text-align:right;">$0</td></tr>
+                            <tr><td style="padding:0.35rem 0.25rem;">Youth (6&ndash;17)</td><td style="padding:0.35rem 0.25rem;">Works for the city</td><td style="padding:0.35rem 0.25rem;text-align:right;">$50</td></tr>
+                            <tr><td style="padding:0.35rem 0.25rem;">Youth (6&ndash;17)</td><td style="padding:0.35rem 0.25rem;">Does not work for the city</td><td style="padding:0.35rem 0.25rem;text-align:right;">$80</td></tr>
+                            <tr><td style="padding:0.35rem 0.25rem;">Adult (18&ndash;64)</td><td style="padding:0.35rem 0.25rem;">Annual income under $15,000</td><td style="padding:0.35rem 0.25rem;text-align:right;">$30</td></tr>
+                            <tr><td style="padding:0.35rem 0.25rem;">Adult (18&ndash;64)</td><td style="padding:0.35rem 0.25rem;">Income $15,000+ and works for the city</td><td style="padding:0.35rem 0.25rem;text-align:right;">$50</td></tr>
+                            <tr><td style="padding:0.35rem 0.25rem;">Adult (18&ndash;64)</td><td style="padding:0.35rem 0.25rem;">Income $15,000+ and does not work for the city</td><td style="padding:0.35rem 0.25rem;text-align:right;">$100</td></tr>
+                            <tr><td style="padding:0.35rem 0.25rem;">Senior (65+)</td><td style="padding:0.35rem 0.25rem;">Annual income under $15,000</td><td style="padding:0.35rem 0.25rem;text-align:right;">$30</td></tr>
+                            <tr><td style="padding:0.35rem 0.25rem;">Senior (65+)</td><td style="padding:0.35rem 0.25rem;">Income $15,000+ and works for the city</td><td style="padding:0.35rem 0.25rem;text-align:right;">$50</td></tr>
+                            <tr><td style="padding:0.35rem 0.25rem;">Senior (65+)</td><td style="padding:0.35rem 0.25rem;">Income $15,000+, not a city employee, and under $30,000</td><td style="padding:0.35rem 0.25rem;text-align:right;">$70</td></tr>
+                            <tr><td style="padding:0.35rem 0.25rem;">Senior (65+)</td><td style="padding:0.35rem 0.25rem;">Income $30,000+ and not a city employee</td><td style="padding:0.35rem 0.25rem;text-align:right;">$100</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -354,28 +386,28 @@
 
             <!-- Step: city employee -->
             <div id="bus-step-emp" style="display:none;">
-                <p style="margin:0.25rem 0 1rem;font-size:1rem;">Are you a city employee?</p>
-                <div style="display:flex;gap:0.75rem;">
-                    <button class="portfolio-btn" onclick="busAnswerEmp(true)">Yes</button>
-                    <button class="portfolio-btn" onclick="busAnswerEmp(false)">No</button>
+                <p style="margin:0.25rem 0 1rem;font-size:1rem;">Do you work for the city?</p>
+                <div class="bus-yn-group">
+                    <button class="bus-yn-btn" onclick="busAnswerEmp(true)">Yes</button>
+                    <button class="bus-yn-btn" onclick="busAnswerEmp(false)">No</button>
                 </div>
             </div>
 
             <!-- Step: income < $15k -->
             <div id="bus-step-15k" style="display:none;">
-                <p style="margin:0.25rem 0 1rem;font-size:1rem;">Do you earn less than $15,000 per year?</p>
-                <div style="display:flex;gap:0.75rem;">
-                    <button class="portfolio-btn" onclick="busAnswer15k(true)">Yes</button>
-                    <button class="portfolio-btn" onclick="busAnswer15k(false)">No</button>
+                <p style="margin:0.25rem 0 1rem;font-size:1rem;">Is your yearly income under $15,000?</p>
+                <div class="bus-yn-group">
+                    <button class="bus-yn-btn" onclick="busAnswer15k(true)">Yes</button>
+                    <button class="bus-yn-btn" onclick="busAnswer15k(false)">No</button>
                 </div>
             </div>
 
             <!-- Step: income < $30k (seniors only) -->
             <div id="bus-step-30k" style="display:none;">
-                <p style="margin:0.25rem 0 1rem;font-size:1rem;">Do you earn less than $30,000 per year?</p>
-                <div style="display:flex;gap:0.75rem;">
-                    <button class="portfolio-btn" onclick="busAnswer30k(true)">Yes</button>
-                    <button class="portfolio-btn" onclick="busAnswer30k(false)">No</button>
+                <p style="margin:0.25rem 0 1rem;font-size:1rem;">Is your yearly income under $30,000?</p>
+                <div class="bus-yn-group">
+                    <button class="bus-yn-btn" onclick="busAnswer30k(true)">Yes</button>
+                    <button class="bus-yn-btn" onclick="busAnswer30k(false)">No</button>
                 </div>
             </div>
 
@@ -383,7 +415,7 @@
             <div id="bus-result" style="display:none;">
                 <hr style="border-color:#e67e22;margin:1.25rem 0;">
                 <p id="bus-category" style="color:#cccccc;font-size:0.9rem;margin-bottom:0.5rem;"></p>
-                <p style="margin:0;font-size:1.1rem;">Your bus pass price is:
+                <p style="margin:0;font-size:1.1rem;">Estimated monthly bus pass price:
                     <span id="bus-price" style="color:#e67e22;font-size:1.5rem;font-weight:bold;"></span>
                 </p>
                 <button class="portfolio-btn" style="margin-top:1.5rem;" onclick="busReset()">Calculate Again</button>
@@ -495,7 +527,7 @@
     }
 
     function busShowResult(category, priceStr) {
-        document.getElementById('bus-category').textContent = 'Category: ' + category;
+        document.getElementById('bus-category').textContent = 'Rider type: ' + category;
         document.getElementById('bus-price').textContent = priceStr;
         busShow('bus-result');
     }
