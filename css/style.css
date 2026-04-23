@@ -36,9 +36,17 @@
     cursor: pointer;
     display: inline-block;
 }
-.portfolio-btn:hover:not([style*="pointer-events:none"]) {
-    background: var(--colour-accent, #e67e22);
-    color: #fff;
+.portfolio-btn:hover:not(.portfolio-btn--active) {
+    background: var(--colour-primary, #2c3e50);
+    color: var(--colour-accent, #e67e22);
+}
+
+/* Current page in footer project nav */
+.portfolio-btn--active {
+    color: var(--colour-accent, #e67e22) !important;
+    pointer-events: none;
+    cursor: default;
+    opacity: 1;
 }
 /* ============================================================
    style.css — Shared stylesheet for Jordan's Personal Website
