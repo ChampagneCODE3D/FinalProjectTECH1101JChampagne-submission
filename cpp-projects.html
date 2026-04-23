@@ -245,6 +245,7 @@
         }
         // Check last value
         if (currentCount > maxCount) {
+            maxCount = currentCount;
             modes = [sorted[sorted.length - 1]];
         } else if (currentCount === maxCount) {
             modes.push(sorted[sorted.length - 1]);
