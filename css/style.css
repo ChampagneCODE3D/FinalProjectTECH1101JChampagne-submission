@@ -357,6 +357,11 @@ footer {
     margin-bottom: 0.25rem;
 }
 
+.submission-project-group h3 {
+    font-size: 1.45rem;
+    margin-bottom: 0.4rem;
+}
+
 .resume-meta {
     display: block;
     font-size: 0.85rem;
